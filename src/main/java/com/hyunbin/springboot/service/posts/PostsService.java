@@ -2,12 +2,16 @@ package com.hyunbin.springboot.service.posts;
 
 import com.hyunbin.springboot.domain.posts.Posts;
 import com.hyunbin.springboot.domain.posts.PostsRepository;
+import com.hyunbin.springboot.web.dto.PostsListResponseDto;
 import com.hyunbin.springboot.web.dto.PostsResponseDto;
 import com.hyunbin.springboot.web.dto.PostsSaveRequestDto;
 import com.hyunbin.springboot.web.dto.PostsUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -37,4 +41,10 @@ public class PostsService {
         return new PostsResponseDto(entity);
     }
 
+    @Transactional(readOnly = true)
+    public List<PostsListResponseDto> findAllDesc() {
+        return postsRepository.findAllDesc().stream()
+                .map(PostsListResponseDto::new)
+                .collect(Collectors.toList());
+    }
 }
