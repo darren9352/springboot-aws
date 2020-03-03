@@ -1,5 +1,6 @@
 package com.hyunbin.springboot.web;
 
+import com.hyunbin.springboot.config.auth.LoginUser;
 import com.hyunbin.springboot.config.auth.dto.SessionUser;
 import com.hyunbin.springboot.service.posts.PostsService;
 import com.hyunbin.springboot.web.dto.PostsResponseDto;
@@ -19,10 +20,8 @@ public class IndexController {
     private  final HttpSession httpSession;
 
     @GetMapping("/")
-    public String index(Model model){
+    public String index(Model model, @LoginUser SessionUser user){
         model.addAttribute("posts", postsService.findAllDesc());
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
-
         if(user != null){
             model.addAttribute("userName", user.getName());
         }
